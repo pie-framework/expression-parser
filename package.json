@@ -1,10 +1,10 @@
 {
-  "name": "@pie-labs/math-parser",
+  "name": "@pie-framework/expression-parser",
+  "version": "1.0.0",
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.0",
-  "description": "",
+  "description": "A simple math parser/calculator",
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json"
