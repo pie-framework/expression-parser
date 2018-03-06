@@ -2,9 +2,9 @@
   "name": "expression-parser",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/.bin/tsc --p tsconfig.build.json"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,9 @@
     "chevrotain": "^3.0.1"
   },
   "devDependencies": {
-    "jest": "^22.4.2"
+    "jest": "^22.4.2",
+    "typescript": "^2.7.2",
+    "tslint": "^5.9.1",
+    "@types/jest": "^22.2.0"
   }
 }
