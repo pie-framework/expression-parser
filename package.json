@@ -1,5 +1,8 @@
 {
-  "name": "expression-parser",
+  "name": "@pie-labs/math-parser",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
