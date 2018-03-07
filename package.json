@@ -7,7 +7,7 @@
   "description": "A simple math parser/calculator",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json && git add . && git commit . -m \"build\"",
+    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json",
     "test": "./node_modules/.bin/jest",
     "release": "./node_modules/.bin/release-it"
   },
