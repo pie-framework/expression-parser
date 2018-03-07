@@ -14,6 +14,7 @@ export declare class CalculatorInterpreter extends BaseCstVisitor {
     atomicExpression(ctx: any, opts: Opts): any;
     factorial(ctx: any, opts: Opts): number;
     pi(ctx: any, opts: Opts): number;
+    euler(ctx: any, opts: Opts): number;
     percent(ctx: any, opts: Opts): number;
     parenthesisExpression(ctx: any, opts: Opts): any;
     angleFunction(ctx: any, opts: Opts): number;

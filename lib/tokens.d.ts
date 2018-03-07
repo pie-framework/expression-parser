@@ -26,6 +26,7 @@ export declare const PowerFunc: TokenType;
 export declare const LogFunc: TokenType;
 export declare const LnFunc: TokenType;
 export declare const Comma: TokenType;
+export declare const Euler: TokenType;
 export declare const WhiteSpace: TokenType;
 export declare const allTokens: TokenType[];
 export declare const CalculatorLexer: Lexer;

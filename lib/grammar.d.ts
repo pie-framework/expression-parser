@@ -16,6 +16,7 @@ export declare class CalculatorPure extends Parser {
     percent: any;
     angleFunction: any;
     lnFunction: any;
+    euler: any;
     constructor(input: any);
 }
 export declare const parser: CalculatorPure;
