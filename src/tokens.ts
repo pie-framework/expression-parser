@@ -1,10 +1,12 @@
 import { createToken, TokenType, Lexer, ILexingResult } from 'chevrotain';
 export { TokenType }
 
-// ----------------- lexer -----------------
-// using the NA pattern marks this Token class as 'irrelevant' for the Lexer.
-// AdditionOperator defines a Tokens hierarchy but only the leafs in this hierarchy define
-// actual Tokens that can appear in the text
+/**
+ *  ---------------- lexer -----------------
+ * using the NA pattern marks this Token class as 'irrelevant' for the Lexer.
+ * AdditionOperator defines a Tokens hierarchy but only the leafs in this hierarchy define
+ * actual Tokens that can appear in the text
+ */
 export const AdditionOperator = createToken({
   name: 'AdditionOperator',
   pattern: Lexer.NA
@@ -104,6 +106,8 @@ export const LogFunc = createToken({ name: 'LogFunc', pattern: /log/ })
 export const LnFunc = createToken({ name: 'LnFunc', pattern: /ln/ })
 export const Comma = createToken({ name: 'Comma', pattern: /,/ })
 
+export const Euler = createToken({ name: 'Euler', pattern: /e/ });
+
 // marking WhiteSpace as 'SKIPPED' makes the lexer skip it.
 export const WhiteSpace = createToken({
   name: 'WhiteSpace',
@@ -139,7 +143,8 @@ export const allTokens: TokenType[] = [
   ATan,
   Sin,
   Cos,
-  Tan
+  Tan,
+  Euler
 ];
 
 export const CalculatorLexer = new Lexer(allTokens);

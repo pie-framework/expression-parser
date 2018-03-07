@@ -119,6 +119,8 @@ export class CalculatorInterpreter extends BaseCstVisitor {
       return this.visit(ctx.squareRootFunction, opts)
     } else if (ctx.pi) {
       return this.visit(ctx.pi, opts);
+    } else if (ctx.euler) {
+      return this.visit(ctx.euler, opts);
     } else if (ctx.exponentialNumber) {
       return this.visit(ctx.exponentialNumber, opts);
     } else if (ctx.factorial) {
@@ -133,6 +135,10 @@ export class CalculatorInterpreter extends BaseCstVisitor {
 
   pi(ctx, opts: Opts) {
     return Math.PI;
+  }
+
+  euler(ctx, opts: Opts) {
+    return Math.E;
   }
 
   percent(ctx, opts: Opts) {

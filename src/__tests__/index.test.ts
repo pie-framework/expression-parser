@@ -108,9 +108,16 @@ describe('calculate', () => {
     assert('2¹⁰', 1024);
   });
 
-  describe('pi', () => {
-    assert('2 * π', 2 * Math.PI);
-    //TODO: assert('2π').value).toEqual(2 * Math.PI);
+  describe('constants', () => {
+    describe('pi', () => {
+      assert('2 * π', 2 * Math.PI);
+      //TODO: assert('2π').value).toEqual(2 * Math.PI);
+    });
+
+    describe('euler', () => {
+      assert('e', Math.E);
+      assert('e * 10', Math.E * 10);
+    });
   });
 
   describe('operator priority', () => {

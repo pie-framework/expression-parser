@@ -19,7 +19,8 @@ import {
   Plus,
   Multi,
   AngleFunction,
-  LnFunc
+  LnFunc,
+  Euler
 } from './tokens';
 import { factorialLoop } from './math-utils';
 import { superToNormal } from './char-utils';
@@ -45,6 +46,7 @@ export class CalculatorPure extends Parser {
   public percent;
   public angleFunction;
   public lnFunction;
+  public euler;
 
   constructor(input) {
     super(input, allTokens, { outputCst: true })
@@ -128,6 +130,7 @@ export class CalculatorPure extends Parser {
         { ALT: () => this.SUBRULE(this.angleFunction) },
         { ALT: () => this.SUBRULE(this.squareRootFunction) },
         { ALT: () => this.SUBRULE(this.pi) },
+        { ALT: () => this.SUBRULE(this.euler) },
         { ALT: () => this.SUBRULE(this.exponentialNumber) },
         { ALT: () => this.SUBRULE(this.factorial) },
         { ALT: () => this.SUBRULE(this.number) },
@@ -136,6 +139,10 @@ export class CalculatorPure extends Parser {
 
     this.pi = this.RULE('pi', () => {
       this.CONSUME(Pi);
+    });
+
+    this.euler = this.RULE('euler', () => {
+      this.CONSUME(Euler);
     });
 
     this.parenthesisExpression = this.RULE('parenthesisExpression', () => {
