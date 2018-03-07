@@ -1,6 +1,7 @@
 import { tokenMatcher, Lexer, Parser, Rule } from 'chevrotain';
 
-import allTokens, {
+import {
+  allTokens,
   AdditionOperator,
   MultiplicationOperator,
   NumberLiteral,
@@ -16,36 +17,37 @@ import allTokens, {
   PowerFunc,
   Comma,
   Plus,
-  Multi
+  Multi,
+  AngleFunction,
+  LnFunc
 } from './tokens';
 import { factorialLoop } from './math-utils';
 import { superToNormal } from './char-utils';
 
-export const CalculatorLexer = new Lexer(allTokens);
 
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
 // Not any actions (semantics) to perform during parsing.
 export class CalculatorPure extends Parser {
   public expression;
-  private exponent;
-  private parenthesisExpression;
-  private powerFunction;
-  private logFunction;
-  private squareRootFunction;
-  private pi;
-  private atomicExpression;
-  private exponentialNumber;
-  private number;
-  private factorial;
-  private additionExpression;
-  private multiplicationExpression;
-  private percent;
+  public exponent;
+  public parenthesisExpression;
+  public powerFunction;
+  public logFunction;
+  public squareRootFunction;
+  public pi;
+  public atomicExpression;
+  public exponentialNumber;
+  public number;
+  public factorial;
+  public additionExpression;
+  public multiplicationExpression;
+  public percent;
+  public angleFunction;
+  public lnFunction;
 
   constructor(input) {
     super(input, allTokens, { outputCst: true })
-
-    // const $ = this
 
     this.expression = this.RULE("expression", () => {
       this.SUBRULE(this.additionExpression)
@@ -121,7 +123,9 @@ export class CalculatorPure extends Parser {
         { ALT: () => this.SUBRULE(this.parenthesisExpression) },
         { ALT: () => this.SUBRULE(this.percent) },
         { ALT: () => this.SUBRULE(this.powerFunction) },
+        { ALT: () => this.SUBRULE(this.lnFunction) },
         { ALT: () => this.SUBRULE(this.logFunction) },
+        { ALT: () => this.SUBRULE(this.angleFunction) },
         { ALT: () => this.SUBRULE(this.squareRootFunction) },
         { ALT: () => this.SUBRULE(this.pi) },
         { ALT: () => this.SUBRULE(this.exponentialNumber) },
@@ -156,14 +160,28 @@ export class CalculatorPure extends Parser {
       this.CONSUME(RParen);
     });
 
-    this.RULE("logFunction", () => {
+    this.angleFunction = this.RULE('angleFunction', () => {
+      this.CONSUME(AngleFunction);
+      this.CONSUME(LParen);
+      this.SUBRULE(this.expression, { LABEL: 'base' });
+      this.CONSUME(RParen);
+    });
+
+    this.lnFunction = this.RULE("lnFunction", () => {
+      this.CONSUME(LnFunc)
+      this.CONSUME(LParen)
+      this.SUBRULE(this.expression, { LABEL: "base" })
+      this.CONSUME(RParen)
+    });
+
+    this.logFunction = this.RULE("logFunction", () => {
       this.CONSUME(LogFunc)
       this.CONSUME(LParen)
       this.SUBRULE(this.expression, { LABEL: "base" })
       this.CONSUME(RParen)
     });
 
-    this.RULE("powerFunction", () => {
+    this.powerFunction = this.RULE("powerFunction", () => {
       this.CONSUME(PowerFunc)
       this.CONSUME(LParen)
       this.SUBRULE(this.expression, { LABEL: "base" })

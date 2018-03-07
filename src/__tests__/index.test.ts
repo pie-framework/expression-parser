@@ -1,13 +1,19 @@
-import { calculate } from '..';
+import { calculate, AngleMode } from '..';
+import { sin, cos, tan, asin, acos, atan } from '../math-utils';
+
+const { DEGREES, RADIANS } = AngleMode;
 
 describe('calculate', () => {
 
-  const a = (only) => (expr: string, v: number) => {
+  const a = (only) => (
+    expr: string,
+    v: number,
+    opts: { angleMode: AngleMode } = { angleMode: RADIANS }) => {
 
     const fn = only ? it.only : it;
 
     fn(`${expr} = ${v}`, () => {
-      const result = calculate(expr);
+      const result = calculate(expr, opts);
       expect(result.value).toEqual(v);
     });
   }
@@ -15,6 +21,41 @@ describe('calculate', () => {
   const assert = a(false);
   const assertOnly = a(true);
 
+
+  describe('angle', () => {
+
+    describe('sin', () => {
+      assert('sin(10)', sin(10, RADIANS));
+      assert('sin(5+2+3)', sin(10, RADIANS));
+      assert('sin(30)', sin(30, RADIANS));
+      assert('sin(30)', 0.5, { angleMode: DEGREES });
+      assert('sin(90)', 1, { angleMode: DEGREES });
+      assert('sin(120)', sin(120, DEGREES), { angleMode: DEGREES });
+    });
+
+    describe('cos', () => {
+      assert('cos(10)', cos(10, RADIANS));
+      assert('cos(10)', cos(10, DEGREES), { angleMode: DEGREES });
+    });
+
+    describe('tan', () => {
+      assert('tan(10)', tan(10, RADIANS));
+      assert('tan(10)', tan(10, DEGREES), { angleMode: DEGREES });
+    });
+    describe('asin', () => {
+      assert('asin(1)', asin(1, DEGREES), { angleMode: DEGREES });
+      assert('asin(10)', asin(10, RADIANS));
+      assert('asin(90)', asin(90, DEGREES), { angleMode: DEGREES });
+    });
+    describe('acos', () => {
+      assert('acos(10)', acos(10, RADIANS));
+      assert('acos(10)', acos(10, DEGREES), { angleMode: DEGREES });
+    });
+    describe('atan', () => {
+      assert('atan(10)', atan(10, RADIANS));
+      assert('atan(10)', atan(10, DEGREES), { angleMode: DEGREES });
+    });
+  });
 
   describe('decimal', () => {
     assert('10.12', 10.12);
@@ -38,9 +79,15 @@ describe('calculate', () => {
     assert('(100 ÷ 10) + 1.2', 11.2);
   });
 
-
   describe('log', () => {
-    assert('log(10% * 2)', Math.log(0.2));
+    assert('log(10% * 2)', Math.log10(0.2));
+    assert('log(10)', 1);
+    const log = Math.log10(10);
+    assert('log(10)', log);
+  });
+
+  describe('ln', () => {
+    assert('ln(10)', Math.log(10));
   });
 
   describe('sqrt', () => {

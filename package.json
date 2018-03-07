@@ -7,12 +7,14 @@
   "description": "A simple math parser/calculator",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json"
+    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json",
+    "test": "./node_modules/.bin/jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chevrotain": "^3.0.1"
+    "chevrotain": "^3.0.1",
+    "debug": "^3.1.0"
   },
   "devDependencies": {
     "jest": "^22.4.2",

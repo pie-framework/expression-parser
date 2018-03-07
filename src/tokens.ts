@@ -1,4 +1,4 @@
-import { createToken, TokenType, Lexer } from 'chevrotain';
+import { createToken, TokenType, Lexer, ILexingResult } from 'chevrotain';
 export { TokenType }
 
 // ----------------- lexer -----------------
@@ -39,6 +39,26 @@ export const Div = createToken({
   pattern: /[\/|\÷]/,
   categories: MultiplicationOperator
 });
+
+export const AngleFunction = createToken({
+  name: 'AngleFunction',
+  pattern: Lexer.NA
+});
+
+const createAngleFn = (n: string) => {
+  return createToken({
+    name: `${n.substring(0, 1).toUpperCase()}${n.substring(1)}`,
+    pattern: new RegExp(n),
+    categories: AngleFunction
+  });
+}
+
+export const ASin = createAngleFn('asin');
+export const ACos = createAngleFn('acos');
+export const ATan = createAngleFn('atan');
+export const Sin = createAngleFn('sin');
+export const Cos = createAngleFn('cos');
+export const Tan = createAngleFn('tan');
 
 export const Factorial = createToken({
   name: 'Factorial',
@@ -81,6 +101,7 @@ export const DecimalPlace = createToken({
 
 export const PowerFunc = createToken({ name: 'PowerFunc', pattern: /power/ })
 export const LogFunc = createToken({ name: 'LogFunc', pattern: /log/ })
+export const LnFunc = createToken({ name: 'LnFunc', pattern: /ln/ })
 export const Comma = createToken({ name: 'Comma', pattern: /,/ })
 
 // marking WhiteSpace as 'SKIPPED' makes the lexer skip it.
@@ -105,12 +126,22 @@ export const allTokens: TokenType[] = [
   MultiplicationOperator,
   PowerFunc,
   LogFunc,
+  LnFunc,
   Comma,
   SquareRoot,
   SuperScriptNumber,
   Pi,
   DecimalPlace,
-  Factorial
+  Factorial,
+  AngleFunction,
+  ASin,
+  ACos,
+  ATan,
+  Sin,
+  Cos,
+  Tan
 ];
 
-export default allTokens;
+export const CalculatorLexer = new Lexer(allTokens);
+
+export const tokenize = (s: string) => CalculatorLexer.tokenize(s);
