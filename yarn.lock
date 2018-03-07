@@ -1218,7 +1218,7 @@ conventional-changelog-writer@^3.0.4:
     split "^1.0.0"
     through2 "^2.0.0"
 
-conventional-changelog@1.1.18:
+conventional-changelog@1.1.18, conventional-changelog@^1.1.18:
   version "1.1.18"
   resolved "https://registry.yarnpkg.com/conventional-changelog/-/conventional-changelog-1.1.18.tgz#ffe28798e4ddef5f6e2f74398e8248bcb233360b"
   dependencies:
