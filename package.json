@@ -7,9 +7,9 @@
   "description": "A simple math parser/calculator",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json",
+    "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json && git add . && git commit . -m \"build\"",
     "test": "./node_modules/.bin/jest",
-    "release": "npm run build && release-it"
+    "release": "npm run build && ./node_modules/.bin/release-it"
   },
   "author": "",
   "license": "ISC",

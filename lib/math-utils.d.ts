@@ -1,1 +1,10 @@
+import { AngleMode } from './angle-mode';
 export declare const factorialLoop: (num: number) => number;
+export declare type AngleFunction = (n: number, mode: AngleMode) => number;
+export declare const toRadians: (degrees: number) => number;
+export declare const sin: AngleFunction;
+export declare const cos: AngleFunction;
+export declare const tan: AngleFunction;
+export declare const asin: AngleFunction;
+export declare const acos: AngleFunction;
+export declare const atan: AngleFunction;
