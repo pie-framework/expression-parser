@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json && git add . && git commit . -m \"build\"",
     "test": "./node_modules/.bin/jest",
-    "release": "npm run build && ./node_modules/.bin/release-it"
+    "release": "./node_modules/.bin/release-it"
   },
   "author": "",
   "license": "ISC",
