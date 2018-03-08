@@ -17,3 +17,8 @@ npm install @pie-framework/expression-parser
 yarn add @pie-framework/expression-parser 
 ```
 
+## supported
+
+Have a look at the tests. Most basic functions you'd find on a scientific calculator.
+
+> implicit multiplication: `2(4) = 8` isn't supported at the moment
