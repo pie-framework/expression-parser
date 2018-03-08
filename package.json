@@ -4,8 +4,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": "pie-framework/expression-parser",
   "description": "A simple math parser/calculator",
   "main": "lib/index.js",
+  "keywords": [
+    "math",
+    "calculator",
+    "grammar",
+    "parser",
+    "interpreter"
+  ],
   "scripts": {
     "build": "rm -fr lib && ./node_modules/.bin/tsc --p tsconfig.build.json",
     "test": "./node_modules/.bin/jest",
