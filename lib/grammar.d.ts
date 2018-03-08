@@ -10,6 +10,9 @@ export declare class CalculatorPure extends Parser {
     atomicExpression: any;
     exponentialNumber: any;
     number: any;
+    dotFloat: any;
+    int: any;
+    float: any;
     factorial: any;
     additionExpression: any;
     multiplicationExpression: any;

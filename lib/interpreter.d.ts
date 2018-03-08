@@ -10,7 +10,10 @@ export declare class CalculatorInterpreter extends BaseCstVisitor {
     expression(ctx: any, opts: Opts): any;
     additionExpression(ctx: any, opts: Opts): any;
     multiplicationExpression(ctx: any, opts: Opts): any;
-    number(ctx: any): number;
+    number(ctx: any): any;
+    dotFloat(ctx: any): number;
+    float(ctx: any): number;
+    int(ctx: any): number;
     atomicExpression(ctx: any, opts: Opts): any;
     factorial(ctx: any, opts: Opts): number;
     pi(ctx: any, opts: Opts): number;
