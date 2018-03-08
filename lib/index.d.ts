@@ -1,10 +1,13 @@
-import { ILexingResult, IRecognitionException } from 'chevrotain';
 import { AngleMode } from './angle-mode';
 export { AngleMode };
+export declare type CalculateResult = {
+    value: string;
+    error?: {
+        e: Error;
+        start: number;
+        end: number;
+    };
+};
 export declare const calculate: (text: string, opts?: {
     angleMode: AngleMode;
-}) => {
-    value: any;
-    lexResult: ILexingResult;
-    parseErrors: IRecognitionException[];
-};
+}) => CalculateResult;
