@@ -24,6 +24,17 @@ describe('calculate', () => {
   const assert = a(false);
   const assertOnly = a(true);
 
+  const assertError = (expr: string) => {
+    it(`${expr} == Error`, () => {
+      const result = calculate(expr, { angleMode: RADIANS });
+      expect(result.error).toBeDefined();
+    });
+  }
+
+  describe('errors', () => {
+    assertError('foo');
+  });
+
   describe('number', () => {
     assert('-10', -10);
     assert('-.1', -0.1);
@@ -72,7 +83,7 @@ describe('calculate', () => {
 
     it('bad decimal place', () => {
       const result = calculate('10.1.1');
-      expect(result.parseErrors.length).toEqual(1);
+      expect(result.error).toBeDefined();
     });
   });
 
