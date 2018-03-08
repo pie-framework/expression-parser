@@ -29,9 +29,6 @@ import { factorialLoop } from './math-utils';
 import { superToNormal } from './char-utils';
 
 
-// ----------------- parser -----------------
-// Note that this is a Pure grammar, it only describes the grammar
-// Not any actions (semantics) to perform during parsing.
 export class CalculatorPure extends Parser {
   public expression;
   public exponent;
@@ -62,16 +59,10 @@ export class CalculatorPure extends Parser {
       this.SUBRULE(this.additionExpression)
     })
 
-    // Lowest precedence thus it is first in the rule chain
-    // The precedence of binary expressions is determined by how far down the Parse Tree
-    // The binary expression appears.
     this.additionExpression = this.RULE("additionExpression", () => {
-      // using labels can make the CST processing easier
       this.SUBRULE(this.multiplicationExpression, { LABEL: "lhs" })
       this.MANY(() => {
-        // consuming 'AdditionOperator' will consume either Plus or Minus as they are subclasses of AdditionOperator
         this.CONSUME(AdditionOperator)
-        //  the index "2" in SUBRULE2 is needed to identify the unique position in the grammar during runtime
         this.SUBRULE2(this.multiplicationExpression, { LABEL: "rhs" })
       })
     })
@@ -84,15 +75,6 @@ export class CalculatorPure extends Parser {
         this.SUBRULE2(this.atomicExpression, { LABEL: "rhs" })
       })
     })
-
-    //TODO: ....
-    // this.RULE('implicitMultiplication', () => {
-    //   this.SUBRULE(this.atomicExpression, { LABEL: 'lhs' });
-    //   this.MANY(() => {
-    //     this.CONSUME(WhiteSpace);
-    //     this.SUBRULE2(this.atomicExpression, { LABEL: 'rhs' });
-    //   });
-    // });
 
     this.percent = this.RULE('percent', () => {
       this.SUBRULE(this.number, { LABEL: 'base' });
@@ -151,8 +133,10 @@ export class CalculatorPure extends Parser {
 
     this.atomicExpression = this.RULE("atomicExpression", () => {
       this.OR([
-        // parenthesisExpression has the highest precedence and thus it appears
-        // in the "lowest" leaf in the expression ParseTree.
+        /** 
+        * parenthesisExpression has the highest precedence and thus it appears
+        * in the "lowest" leaf in the expression ParseTree.
+        */
         { ALT: () => this.SUBRULE(this.parenthesisExpression) },
         { ALT: () => this.SUBRULE(this.percent) },
         { ALT: () => this.SUBRULE(this.powerFunction) },
@@ -236,13 +220,13 @@ export class CalculatorPure extends Parser {
       this.CONSUME(RParen);
     });
 
-    // very important to call this after all the rules have been defined.
-    // otherwise the parser may not work correctly as it will lack information
-    // derived during the self analysis phase.
+    /**
+     *  very important to call this after all the rules have been defined.
+     * otherwise the parser may not work correctly as it will lack information
+     * derived during the self analysis phase
+     */
     Parser.performSelfAnalysis(this)
   }
 }
 
-// wrapping it all together
-// reuse the same parser instance.
 export const parser = new CalculatorPure([])
