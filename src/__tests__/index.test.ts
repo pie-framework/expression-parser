@@ -1,5 +1,7 @@
 import { calculate, AngleMode } from '..';
 import { sin, cos, tan, asin, acos, atan } from '../math-utils';
+import debug from 'debug';
+const log = debug('expression-grammar:test');
 
 const { DEGREES, RADIANS } = AngleMode;
 
@@ -12,9 +14,9 @@ describe('calculate', () => {
 
     const fn = only ? it.only : it;
 
-    fn(`${expr} = ${v}`, () => {
+    fn(`${opts.angleMode === DEGREES ? '[D]' : '[R]'} ${expr} = ${v}`, () => {
       const result = calculate(expr, opts);
-      console.log('>>>', result);
+      log('>>>', result);
       expect(result.value).toEqual(v);
     });
   }
@@ -23,7 +25,11 @@ describe('calculate', () => {
   const assertOnly = a(true);
 
   describe('number', () => {
-    assertOnly('-10', -10);
+    assert('-10', -10);
+    assert('-.1', -0.1);
+    assert('1.', 1);
+    assert('1.0', 1);
+    assert('1.1234567', 1.1234567);
   });
 
   describe('angle', () => {
@@ -109,6 +115,9 @@ describe('calculate', () => {
 
   describe('abs', () => {
     assert('abs(-10)', 10);
+    assert('abs(10-20)', 10);
+    assert('abs(20 * 50%)', 10);
+    assert('abs(10% * -100)', 10);
   });
 
   describe('square', () => {

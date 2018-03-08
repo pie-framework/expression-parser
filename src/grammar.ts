@@ -22,7 +22,8 @@ import {
   LnFunc,
   Euler,
   Abs,
-  Minus
+  Minus,
+  Digit
 } from './tokens';
 import { factorialLoop } from './math-utils';
 import { superToNormal } from './char-utils';
@@ -42,6 +43,9 @@ export class CalculatorPure extends Parser {
   public atomicExpression;
   public exponentialNumber;
   public number;
+  public dotFloat;
+  public int;
+  public float;
   public factorial;
   public additionExpression;
   public multiplicationExpression;
@@ -52,7 +56,7 @@ export class CalculatorPure extends Parser {
   public abs;
 
   constructor(input) {
-    super(input, allTokens, { outputCst: true })
+    super(input, allTokens, { outputCst: true, maxLookahead: 5 })
 
     this.expression = this.RULE("expression", () => {
       this.SUBRULE(this.additionExpression)
@@ -91,32 +95,52 @@ export class CalculatorPure extends Parser {
     // });
 
     this.percent = this.RULE('percent', () => {
-      this.CONSUME(NumberLiteral)
+      this.SUBRULE(this.number, { LABEL: 'base' });
       this.CONSUME(Percent)
     });
 
     this.factorial = this.RULE('factorial', () => {
-      this.CONSUME(NumberLiteral, { LABEL: 'base' });
-      this.AT_LEAST_ONE(() => {
-        this.CONSUME(Factorial);
-      });
+      this.SUBRULE(this.int, { LABEL: 'base' });
+      this.CONSUME(Factorial);
     });
 
     this.number = this.RULE('number', () => {
 
+      this.OR([
+        { ALT: () => this.SUBRULE(this.float) },
+        { ALT: () => this.SUBRULE(this.int) },
+        { ALT: () => this.SUBRULE(this.dotFloat) },
+      ]);
+    });
+
+    this.dotFloat = this.RULE('dotFloat', () => {
       this.OPTION(() => {
         this.CONSUME(Minus, { LABEL: 'minus' });
       });
-
+      this.CONSUME2(DecimalPlace);
       this.AT_LEAST_ONE(() => {
-        this.CONSUME(NumberLiteral, { LABEL: 'int' })
+        this.CONSUME(Digit, { LABEL: 'decimals' });
       });
+    });
 
+    this.int = this.RULE('int', () => {
+      this.OPTION(() => {
+        this.CONSUME(Minus, { LABEL: 'minus' });
+      });
+      this.CONSUME(Digit, { LABEL: 'digits' });
       this.OPTION2(() => {
-        this.CONSUME(DecimalPlace);
-        this.AT_LEAST_ONE2(() => {
-          this.CONSUME2(NumberLiteral, { LABEL: 'decimal' });
-        })
+        this.CONSUME(DecimalPlace, { LABEL: 'unused_decimal' })
+      });
+    });
+
+    this.float = this.RULE('float', () => {
+      this.OPTION(() => {
+        this.CONSUME(Minus, { LABEL: 'minus' });
+      });
+      this.CONSUME2(Digit, { LABEL: 'int' });
+      this.CONSUME3(DecimalPlace);
+      this.AT_LEAST_ONE(() => {
+        this.CONSUME(Digit, { LABEL: 'decimals' })
       });
     });
 
@@ -139,8 +163,8 @@ export class CalculatorPure extends Parser {
         { ALT: () => this.SUBRULE(this.abs) },
         { ALT: () => this.SUBRULE(this.pi) },
         { ALT: () => this.SUBRULE(this.euler) },
-        { ALT: () => this.SUBRULE(this.exponentialNumber) },
         { ALT: () => this.SUBRULE(this.factorial) },
+        { ALT: () => this.SUBRULE(this.exponentialNumber) },
         { ALT: () => this.SUBRULE(this.number) },
       ])
     })

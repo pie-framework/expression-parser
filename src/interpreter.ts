@@ -93,13 +93,40 @@ export class CalculatorInterpreter extends BaseCstVisitor {
   }
 
   number(ctx) {
-    const multiplier = ctx.minus ? -1 : 1;
+    log('[number] ctx: ', ctx);
 
-    if (ctx.decimal) {
-      return multiplier * parseFloat(`${ctx.int[0].image}.${ctx.decimal[0].image}`);
-    } else {
-      return multiplier * parseInt(ctx.int[0].image, 10);
+    if (ctx.int) {
+      return this.visit(ctx.int);
+    } else if (ctx.float) {
+      return this.visit(ctx.float);
+    } else if (ctx.dotFloat) {
+      return this.visit(ctx.dotFloat);
     }
+  }
+
+  dotFloat(ctx) {
+    const multiplier = ctx.minus ? -1 : 1;
+    const decimals = ctx.decimals[0].image;
+    const f = parseFloat(`0.${decimals}`);
+    return f * multiplier;
+  }
+
+  float(ctx) {
+    const multiplier = ctx.minus ? -1 : 1;
+    const int = ctx.int[0].image;
+    const decimals = ctx.decimals[0].image;
+    if (decimals === '0') {
+      return parseInt(int, 10);
+    } else {
+      const f = parseFloat(`${int}.${decimals}`);
+      return f * multiplier;
+    }
+  }
+
+  int(ctx) {
+    const multiplier = ctx.minus ? -1 : 1;
+    const i = parseInt(ctx.digits[0].image, 10);
+    return multiplier * i;
   }
 
   atomicExpression(ctx, opts: Opts) {
@@ -127,11 +154,13 @@ export class CalculatorInterpreter extends BaseCstVisitor {
       return this.visit(ctx.exponentialNumber, opts);
     } else if (ctx.factorial) {
       return this.visit(ctx.factorial, opts);
+    } else if (ctx.abs) {
+      return this.visit(ctx.abs);
     }
   }
 
   factorial(ctx, opts: Opts) {
-    const base = parseInt(ctx.base[0].image, 10);
+    const base = this.visit(ctx.base);
     return factorialLoop(base);
   }
 
@@ -144,8 +173,9 @@ export class CalculatorInterpreter extends BaseCstVisitor {
   }
 
   percent(ctx, opts: Opts) {
-    const v = parseInt(ctx.NumberLiteral[0].image, 10);
-    return v * 0.01;
+    log('[percent] ctx: ', ctx);
+    const r = this.visit(ctx.base);
+    return r * 0.01;
   }
 
   parenthesisExpression(ctx, opts: Opts) {
@@ -182,6 +212,7 @@ export class CalculatorInterpreter extends BaseCstVisitor {
   }
 
   abs(ctx, opts: Opts) {
+    log('[abs] ctx: ', ctx);
     const base = this.visit(ctx.base, opts);
     return Math.abs(base);
   }
