@@ -93,10 +93,12 @@ export class CalculatorInterpreter extends BaseCstVisitor {
   }
 
   number(ctx) {
+    const multiplier = ctx.minus ? -1 : 1;
+
     if (ctx.decimal) {
-      return parseFloat(`${ctx.int[0].image}.${ctx.decimal[0].image}`);
+      return multiplier * parseFloat(`${ctx.int[0].image}.${ctx.decimal[0].image}`);
     } else {
-      return parseInt(ctx.int[0].image, 10);
+      return multiplier * parseInt(ctx.int[0].image, 10);
     }
   }
 
@@ -177,6 +179,11 @@ export class CalculatorInterpreter extends BaseCstVisitor {
   lnFunction(ctx, opts: Opts) {
     const base = this.visit(ctx.base, opts);
     return Math.log(base);
+  }
+
+  abs(ctx, opts: Opts) {
+    const base = this.visit(ctx.base, opts);
+    return Math.abs(base);
   }
 
   powerFunction(ctx, opts: Opts) {

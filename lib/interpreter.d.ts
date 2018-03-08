@@ -20,6 +20,7 @@ export declare class CalculatorInterpreter extends BaseCstVisitor {
     angleFunction(ctx: any, opts: Opts): number;
     logFunction(ctx: any, opts: Opts): number;
     lnFunction(ctx: any, opts: Opts): number;
+    abs(ctx: any, opts: Opts): number;
     powerFunction(ctx: any, opts: Opts): number;
     exponent(ctx: any, opts: Opts): number;
     exponentialNumber(ctx: any, opts: Opts): number;

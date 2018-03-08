@@ -20,7 +20,9 @@ import {
   Multi,
   AngleFunction,
   LnFunc,
-  Euler
+  Euler,
+  Abs,
+  Minus
 } from './tokens';
 import { factorialLoop } from './math-utils';
 import { superToNormal } from './char-utils';
@@ -47,6 +49,7 @@ export class CalculatorPure extends Parser {
   public angleFunction;
   public lnFunction;
   public euler;
+  public abs;
 
   constructor(input) {
     super(input, allTokens, { outputCst: true })
@@ -101,11 +104,15 @@ export class CalculatorPure extends Parser {
 
     this.number = this.RULE('number', () => {
 
+      this.OPTION(() => {
+        this.CONSUME(Minus, { LABEL: 'minus' });
+      });
+
       this.AT_LEAST_ONE(() => {
         this.CONSUME(NumberLiteral, { LABEL: 'int' })
       });
 
-      this.OPTION(() => {
+      this.OPTION2(() => {
         this.CONSUME(DecimalPlace);
         this.AT_LEAST_ONE2(() => {
           this.CONSUME2(NumberLiteral, { LABEL: 'decimal' });
@@ -129,6 +136,7 @@ export class CalculatorPure extends Parser {
         { ALT: () => this.SUBRULE(this.logFunction) },
         { ALT: () => this.SUBRULE(this.angleFunction) },
         { ALT: () => this.SUBRULE(this.squareRootFunction) },
+        { ALT: () => this.SUBRULE(this.abs) },
         { ALT: () => this.SUBRULE(this.pi) },
         { ALT: () => this.SUBRULE(this.euler) },
         { ALT: () => this.SUBRULE(this.exponentialNumber) },
@@ -195,7 +203,14 @@ export class CalculatorPure extends Parser {
       this.CONSUME(Comma)
       this.SUBRULE2(this.expression, { LABEL: "exponent" })
       this.CONSUME(RParen)
-    })
+    });
+
+    this.abs = this.RULE('abs', () => {
+      this.CONSUME(Abs);
+      this.CONSUME(LParen);
+      this.SUBRULE(this.expression, { LABEL: "base" });
+      this.CONSUME(RParen);
+    });
 
     // very important to call this after all the rules have been defined.
     // otherwise the parser may not work correctly as it will lack information

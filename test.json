@@ -1,0 +1,154 @@
+{
+  "name": "expression",
+  "children": {
+    "addSubtract": [
+      {
+        "name": "addSubtract",
+        "children": {
+          "lhs": [
+            {
+              "name": "implicitMultiply",
+              "children": {
+                "lhs": [
+                  {
+                    "name": "multiplyDivide",
+                    "children": {
+                      "lhs": [
+                        {
+                          "name": "atomic",
+                          "children": {
+                            "number": [
+                              {
+                                "name": "number",
+                                "children": {
+                                  "int": [
+                                    {
+                                      "name": "int",
+                                      "children": {
+                                        "digits": [
+                                          {
+                                            "image": "1",
+                                            "startOffset": 0,
+                                            "endOffset": 0,
+                                            "startLine": 1,
+                                            "endLine": 1,
+                                            "startColumn": 1,
+                                            "endColumn": 1,
+                                            "tokenTypeIdx": 22,
+                                            "tokenType": {
+                                              "PATTERN": {},
+                                              "tokenTypeIdx": 22,
+                                              "CATEGORIES": [],
+                                              "categoryMatches": [],
+                                              "categoryMatchesMap": {},
+                                              "tokenName": "Digit",
+                                              "isParent": false
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "rhs": [
+                  {
+                    "name": "multiplyDivide",
+                    "children": {
+                      "lhs": [
+                        {
+                          "name": "atomic",
+                          "children": {
+                            "number": [
+                              {
+                                "name": "number",
+                                "children": {
+                                  "int": [
+                                    {
+                                      "name": "int",
+                                      "children": {
+                                        "minus": [
+                                          {
+                                            "image": "-",
+                                            "startOffset": 2,
+                                            "endOffset": 2,
+                                            "startLine": 1,
+                                            "endLine": 1,
+                                            "startColumn": 3,
+                                            "endColumn": 3,
+                                            "tokenTypeIdx": 4,
+                                            "tokenType": {
+                                              "PATTERN": {},
+                                              "CATEGORIES": [
+                                                {
+                                                  "PATTERN": {},
+                                                  "tokenTypeIdx": 2,
+                                                  "CATEGORIES": [],
+                                                  "categoryMatches": [
+                                                    3,
+                                                    4
+                                                  ],
+                                                  "categoryMatchesMap": {
+                                                    "3": true,
+                                                    "4": true
+                                                  },
+                                                  "tokenName": "AdditionOperator",
+                                                  "isParent": true
+                                                }
+                                              ],
+                                              "tokenTypeIdx": 4,
+                                              "categoryMatches": [],
+                                              "categoryMatchesMap": {},
+                                              "tokenName": "Minus",
+                                              "isParent": false
+                                            }
+                                          }
+                                        ],
+                                        "digits": [
+                                          {
+                                            "image": "2",
+                                            "startOffset": 4,
+                                            "endOffset": 4,
+                                            "startLine": 1,
+                                            "endLine": 1,
+                                            "startColumn": 5,
+                                            "endColumn": 5,
+                                            "tokenTypeIdx": 22,
+                                            "tokenType": {
+                                              "PATTERN": {},
+                                              "tokenTypeIdx": 22,
+                                              "CATEGORIES": [],
+                                              "categoryMatches": [],
+                                              "categoryMatchesMap": {},
+                                              "tokenName": "Digit",
+                                              "isParent": false
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

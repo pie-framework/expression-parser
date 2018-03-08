@@ -14,6 +14,7 @@ describe('calculate', () => {
 
     fn(`${expr} = ${v}`, () => {
       const result = calculate(expr, opts);
+      console.log('>>>', result);
       expect(result.value).toEqual(v);
     });
   }
@@ -21,6 +22,9 @@ describe('calculate', () => {
   const assert = a(false);
   const assertOnly = a(true);
 
+  describe('number', () => {
+    assertOnly('-10', -10);
+  });
 
   describe('angle', () => {
 
@@ -101,6 +105,10 @@ describe('calculate', () => {
   describe('factorial', () => {
     assert('3!', 6);
     assert('10!', 3628800);
+  });
+
+  describe('abs', () => {
+    assert('abs(-10)', 10);
   });
 
   describe('square', () => {
